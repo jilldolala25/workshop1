@@ -59,12 +59,12 @@ public class UserController {
 	//@PutMapping
 	
 	
-	//要再加檢核不可更改key值
+	//要再加檢核不可更改key值??
 	@PutMapping
 	void modifyUser(@RequestBody User user){
 		for (User usr:userList) {
 			int i = 0;
-			if (usr.getId()==(user.getId())) {
+			if (usr.getId().equals(user.getId())) {
 				User updateuser = User.builder().name(user.getName()).age(user.getAge()).id(user.getId()).build();
 				userList.set(i, updateuser);   	
 			}
@@ -75,13 +75,12 @@ public class UserController {
 	
 	
 	//delete user
-	//刪除前端可只傳key值就可以刪除嗎??
 	@DeleteMapping
       void deleteUser(@RequestBody User user){
 		
 		for (User usr:userList) {
-			if (usr.getId()==(user.getId()))  {
-				userList.remove(user);
+			if (usr.getId().equals(user.getId()))  {
+				userList.remove(usr);
 			}
 		}
 		
