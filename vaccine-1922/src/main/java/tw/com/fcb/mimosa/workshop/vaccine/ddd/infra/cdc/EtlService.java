@@ -26,6 +26,7 @@ public class EtlService {
   final ResidentAssembler assember;
 
   //10秒跑一次  fixedRate 毫秒
+  //  @Scheduled(fixedRate = 10_000)
   @Scheduled(fixedRate = 10 * 1000)
   public void etl() {
     // to現在時間
@@ -38,11 +39,12 @@ public class EtlService {
         .stream()
         .map(resident -> {
           // new  profile
-          // 3.save to RESIDENT_PROFILE(residentId不存在就insert,已存在就update
           return residentProfileRepository.findByResidentId(resident.getId())
               .map(profile -> assember.copyProfileEntity(resident, profile)) //copy profile
               .orElseGet(() -> assember.toProfileEntity(resident)); // new profile
         }).forEach(residentProfileRepository::save);
+
+    // 3.save to RESIDENT_PROFILE(residentId不存在就insert,已存在就update
 
   }
 }

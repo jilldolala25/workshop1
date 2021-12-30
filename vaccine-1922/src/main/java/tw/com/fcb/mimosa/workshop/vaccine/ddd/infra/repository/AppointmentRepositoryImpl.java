@@ -1,16 +1,17 @@
 package tw.com.fcb.mimosa.workshop.vaccine.ddd.infra.repository;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Repository;
+
+import lombok.RequiredArgsConstructor;
+import tw.com.fcb.mimosa.workshop.vaccine.command.web.ResidentInfo;
 import tw.com.fcb.mimosa.workshop.vaccine.command.web.ResidentProfile;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.domain.Appointment;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.domain.AppointmentRepository;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.infra.assembler.ResidentAssembler;
-import tw.com.fcb.mimosa.workshop.vaccine.sharedkernel.ResidentInfo;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor

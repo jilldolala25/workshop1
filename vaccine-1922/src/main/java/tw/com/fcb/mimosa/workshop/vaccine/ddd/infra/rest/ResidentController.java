@@ -1,17 +1,22 @@
 package tw.com.fcb.mimosa.workshop.vaccine.ddd.infra.rest;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.RestController;
+
+import lombok.RequiredArgsConstructor;
 import tw.com.fcb.mimosa.ext.ddd.application.UseCases;
+import tw.com.fcb.mimosa.workshop.vaccine.command.web.ResidentInfo;
 import tw.com.fcb.mimosa.workshop.vaccine.command.web.ResidentProfile;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.application.ApplicationService;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.infra.assembler.ResidentAssembler;
-import tw.com.fcb.mimosa.workshop.vaccine.ddd.application.query.QueryResidentInfo;
-import tw.com.fcb.mimosa.workshop.vaccine.ddd.application.query.QueryResidents;
-import tw.com.fcb.mimosa.workshop.vaccine.ddd.rest.*;
-import tw.com.fcb.mimosa.workshop.vaccine.sharedkernel.ResidentInfo;
-
-import java.util.List;
+import tw.com.fcb.mimosa.workshop.vaccine.ddd.query.QueryResidentInfos;
+import tw.com.fcb.mimosa.workshop.vaccine.ddd.query.QueryResidents;
+import tw.com.fcb.mimosa.workshop.vaccine.ddd.rest.CancelVaccineRequest;
+import tw.com.fcb.mimosa.workshop.vaccine.ddd.rest.ChooseVaccineRequest;
+import tw.com.fcb.mimosa.workshop.vaccine.ddd.rest.MakeAppointmentRequest;
+import tw.com.fcb.mimosa.workshop.vaccine.ddd.rest.ReplaceResidentRequest;
+import tw.com.fcb.mimosa.workshop.vaccine.ddd.rest.ResidentApi;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,7 +26,7 @@ class ResidentController implements ResidentApi {
   final ResidentAssembler assembler;
   final UseCases useCases;
   final QueryResidents query;
-  final QueryResidentInfo queryInfo;
+  final QueryResidentInfos queryInfo;
 
   @Override
   public long makeAppointment(MakeAppointmentRequest request) {
@@ -34,7 +39,7 @@ class ResidentController implements ResidentApi {
     var command = assembler.toChooseVaccineCommand(request);
     command.setId(id);
     useCases.execute(command);
-    //    service.chooseVaccine(command);
+    // service.chooseVaccine(command);
   }
 
   @Override
@@ -42,7 +47,7 @@ class ResidentController implements ResidentApi {
     var command = assembler.toCancelVaccineCommand(request);
     command.setId(id);
     useCases.execute(command);
-    //    service.cancelVaccine(command);
+    // service.cancelVaccine(command);
   }
 
   @Override
@@ -51,15 +56,14 @@ class ResidentController implements ResidentApi {
   }
 
   @Override
-  public void replaceResident(long id, ReplaceResidentRequest request) {
-    var command = assembler.toReplaceResidentCommand(request);
-    command.setId(id);
-    useCases.execute(command);
-
+  public List<ResidentInfo> getResidentInfo() {
+    return queryInfo.getResidentInfo();
   }
 
   @Override
-  public List<ResidentInfo> getResidentsInfo() {
-    return queryInfo.getResidentsInfo();
+  public void replaceResidentProfile(long id, ReplaceResidentRequest request) {
+    var command = assembler.toReplaceResidentProfileCommand(request);
+    command.setId(id);
+    useCases.execute(command);
   }
 }

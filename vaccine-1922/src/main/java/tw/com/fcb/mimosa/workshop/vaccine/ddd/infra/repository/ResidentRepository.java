@@ -9,6 +9,5 @@ import java.util.List;
 @Repository
 public interface ResidentRepository
     extends JpaRepository<ResidentEntity, Long> {
-
   List<ResidentEntity> findByLastModifiedDateBetween(LocalDateTime from, LocalDateTime to);
 }

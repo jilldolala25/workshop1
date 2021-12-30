@@ -1,9 +1,9 @@
 package tw.com.fcb.mimosa.workshop.vaccine.ddd.domain;
 
-import tw.com.fcb.mimosa.workshop.vaccine.command.web.ResidentProfile;
-import tw.com.fcb.mimosa.workshop.vaccine.sharedkernel.ResidentInfo;
-
 import java.util.List;
+
+import tw.com.fcb.mimosa.workshop.vaccine.command.web.ResidentInfo;
+import tw.com.fcb.mimosa.workshop.vaccine.command.web.ResidentProfile;
 
 public interface AppointmentRepository {
 
@@ -14,4 +14,5 @@ public interface AppointmentRepository {
   List<ResidentProfile> findResidents();
 
   List<ResidentInfo> findResidentsInfo();
+
 }

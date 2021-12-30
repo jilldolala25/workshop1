@@ -1,15 +1,17 @@
 package tw.com.fcb.mimosa.workshop.vaccine.ddd.application;
 
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.application.assembler.CommandAssembler;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.application.command.CancelVaccine;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.application.command.ChooseVaccine;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.application.command.MakeAppointment;
+import tw.com.fcb.mimosa.workshop.vaccine.ddd.application.command.ResidentProfileReplaced;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.domain.AppointmentRepository;
-import tw.com.fcb.mimosa.workshop.vaccine.ddd.domain.Choose;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.domain.event.AppointmentMade;
 
 @Service
@@ -25,7 +27,18 @@ public class ApplicationService {
     var event = new AppointmentMade();
     event.setResidentId(id);
     event.setNhiNo(command.getNhiNo());
-    event.setPhoneNO(command.getPhoneNo());
+    event.setPhoneNo(command.getPhoneNo());
+    publisher.publishEvent(event);
+    return id;
+    //    return repository.save(assembler.toDomain(command));
+  }
+
+  public long replaceAppointment(ResidentProfileReplaced command) {
+    var id = repository.save(assembler.toDomain(command));
+    var event = new ResidentProfileReplaced();
+    event.setId(id);
+    event.setNhiNo(command.getNhiNo());
+    event.setPhoneNo(command.getPhoneNo());
     publisher.publishEvent(event);
     return id;
   }

@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class ResidentProfileReplaced {
+
   Long residentId;
-  String phoneNo;
+  String phone;
 
 }
